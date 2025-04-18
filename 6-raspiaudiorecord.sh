@@ -12,7 +12,8 @@ NC='\033[0m' # No Color
 # Valores predeterminados
 DURACION=10
 ARCHIVO="grabacion_pulse_$(date +%Y%m%d_%H%M%S).wav"
-DIRECTORIO="$HOME/grabaciones"
+DIRECTORIO="$(pwd)"  # Usa el directorio actual
+COPIA_FIJA="prueba_raspiaudio.wav"
 
 # Verificar si se proporcionó un argumento para la duración
 if [ ! -z "$1" ]; then
@@ -35,19 +36,18 @@ if [ ! -z "$2" ]; then
     fi
 fi
 
-# Crear directorio de grabaciones si no existe
-if [ ! -d "$DIRECTORIO" ]; then
-    mkdir -p "$DIRECTORIO"
-    echo -e "${YELLOW}Información:${NC} Se ha creado el directorio $DIRECTORIO"
-fi
+# Ya no necesitamos crear el directorio porque usamos el directorio actual
+# Eliminamos esta verificación
 
 # Ruta completa del archivo a grabar
 RUTA_COMPLETA="$DIRECTORIO/$ARCHIVO"
+RUTA_COPIA_FIJA="$DIRECTORIO/$COPIA_FIJA"
 
 # Mostrar información de la grabación
 echo -e "${YELLOW}Iniciando grabación de audio${NC}"
 echo -e "Duración: ${DURACION} segundos"
 echo -e "Archivo: ${RUTA_COMPLETA}"
+echo -e "Copia fija: ${RUTA_COPIA_FIJA}"
 echo -e "Formato: CD quality (16-bit, 44.1kHz), mono"
 echo -e "Presiona Ctrl+C para cancelar"
 echo
@@ -68,6 +68,10 @@ arecord -D pulse -f cd -d $DURACION -V mono "$RUTA_COMPLETA"
 if [ $? -eq 0 ]; then
     echo -e "\n${GREEN}Grabación completada exitosamente.${NC}"
     echo -e "El audio ha sido guardado en: ${RUTA_COMPLETA}"
+    
+    # Crear una copia con el nombre fijo
+    cp "$RUTA_COMPLETA" "$RUTA_COPIA_FIJA"
+    echo -e "También se ha guardado una copia en: ${RUTA_COPIA_FIJA}"
     
     # Preguntar si desea reproducir la grabación
     echo -e "\n${YELLOW}¿Desea reproducir la grabación? (s/n)${NC}"
