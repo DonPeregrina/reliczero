@@ -2,7 +2,8 @@
 import gpiod
 import time
 
-CHIP = "gpiochip0"    # Nombre del chip que se ve en gpiodetect
+#CHIP = "gpiochip0"    # Nombre del chip que se ve en gpiodetect
+CHIP = "/dev/gpiochip0"
 LINE_OFFSET = 25      # Número de línea que quieres usar (GPIO25)
 
 # Abrimos el chip
