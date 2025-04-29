@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Colores para una mejor visualización
+# Colores para una mejor visualizaciones
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
